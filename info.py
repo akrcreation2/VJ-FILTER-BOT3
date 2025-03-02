@@ -60,7 +60,7 @@ if len(FORCE_SUB_CHANNELS) == 0:
     print('Info - FORCE_SUB_CHANNELS is empty')
     
 # support group
-SUPPORT_GROUP = environ.get('SUPPORT_GROUP', 'https://t.me/Knmlpro2support_bot')
+SUPPORT_GROUP = environ.get('SUPPORT_GROUP', '')
 if len(SUPPORT_GROUP) == 0:
     print('Error - SUPPORT_GROUP is missing, exiting now')
     exit()
@@ -119,7 +119,7 @@ if len(BIN_CHANNEL) == 0:
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "")
+URL = environ.get("URL", "https://knmlpro2filter-akrcreation2.koyeb.app/")
 if len(URL) == 0:
     print('Error - URL is missing, exiting now')
     exit()
