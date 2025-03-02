@@ -32,10 +32,10 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     print('Error - BOT_TOKEN is missing, exiting now')
     exit()
-PORT = int(environ.get('PORT', '80'))
+PORT = int(environ.get('PORT', '8080'))
 
 # Bot pics
-PICS = (environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg https://telegra.ph/file/f0aa4f433132769f8970c.jpg https://telegra.ph/file/f515fbc2084592eca60a5.jpg https://telegra.ph/file/20dbdcffaa89bd3d09a74.jpg https://telegra.ph/file/6045ba953af4def846238.jpg')).split()
+PICS = (environ.get('PICS', 'https://telegra.ph/file/6993374820d251a28a755.jpg')).split()
 
 # Bot Admins
 ADMINS = environ.get('ADMINS', '')
@@ -60,7 +60,7 @@ if len(FORCE_SUB_CHANNELS) == 0:
     print('Info - FORCE_SUB_CHANNELS is empty')
     
 # support group
-SUPPORT_GROUP = environ.get('SUPPORT_GROUP', '')
+SUPPORT_GROUP = environ.get('SUPPORT_GROUP', 'https://t.me/Knmlpro2support_bot')
 if len(SUPPORT_GROUP) == 0:
     print('Error - SUPPORT_GROUP is missing, exiting now')
     exit()
@@ -76,12 +76,12 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 
 # Links
-SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/HA_Bots_Support')
-OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/Hansaka_Anuhas")
-UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/HA_Bots')
-FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/HA_Films_World')
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/HA_Bots")
-VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/HA_Bots")
+SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/Knmlpro2support_bot')
+OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/knmlpro2")
+UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/+xCoehbucGlA3OTdl')
+FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/knmlpro2_group')
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/open_link_trick/17")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/open_link_trick/17")
 
 # Bot settings
 TIME_ZONE = pytz.timezone(environ.get("TIME_ZONE", 'Asia/Colombo'))
@@ -100,8 +100,8 @@ INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTE
 PM_FILE_DELETE_TIME = int(environ.get('PM_FILE_DELETE_TIME', '3600'))
 
 # boolean settings
-IS_VERIFY = is_enabled('IS_VERIFY', False)
-AUTO_DELETE = is_enabled('AUTO_DELETE', False)
+IS_VERIFY = is_enabled('IS_VERIFY', True)
+AUTO_DELETE = is_enabled('AUTO_DELETE', True)
 WELCOME = is_enabled('WELCOME', False)
 PROTECT_CONTENT = is_enabled('PROTECT_CONTENT', False)
 LONG_IMDB_DESCRIPTION = is_enabled("LONG_IMDB_DESCRIPTION", False)
