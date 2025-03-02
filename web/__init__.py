@@ -1,7 +1,7 @@
 # Credit - adarsh-goel
 
 from aiohttp import web
-from .route import routes
+from web.stream_routes import routes
 
 
 web_app = web.Application()
