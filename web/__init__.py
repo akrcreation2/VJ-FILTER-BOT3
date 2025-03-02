@@ -1,8 +1,9 @@
 # Credit - adarsh-goel
 
 from aiohttp import web
-from web.stream_routes import routes
+from .route import routes
 
-
-web_app = web.Application()
-web_app.add_routes(routes)
+async def web_server():
+    web_app = web.Application(client_max_size=30000000)
+    web_app.add_routes(routes)
+    return web_app
