@@ -449,7 +449,6 @@ async def advantage_spoll_choker(bot, query):
         await auto_filter(bot, query, s, k)
     else:
         k = await query.message.edit(f"👋 Hello {query.from_user.mention},\n\nI don't find <b>'{search}'</b> in my database. 😔")
-        await bot.send_message(LOG_CHANNEL, f"#No_Result\n\nRequester: {query.from_user.mention}\nContent: {search}")
         await asyncio.sleep(60)
         await k.delete()
         try:
@@ -553,13 +552,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data == "start":
         buttons = [[
-                    InlineKeyboardButton("➕️ 𝙰𝙳𝙳 𝙼𝙴 𝚃𝙾 𝚈𝙾𝚄𝚁 𝙶𝚁𝙾𝚄𝙿 ➕️", url=f"http://t.me/{temp.U_NAME}?startgroup=true")
-            ],[
-            InlineKeyboardButton("ℹ️ 𝙷𝙴𝙻𝙿 ℹ️", callback_data="help"),
-            InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
-            ],[
+            InlineKeyboardButton("+ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ +", url=f'http://t.me/{temp.U_NAME}?startgroup=start')
+        ],[
+            InlineKeyboardButton('ℹ️ ᴜᴘᴅᴀᴛᴇs', url=UPDATES_LINK),
+            InlineKeyboardButton('🧑‍💻 sᴜᴘᴘᴏʀᴛ', url=SUPPORT_LINK)
+        ],[
+            InlineKeyboardButton('👨‍🚒 ʜᴇʟᴘ', callback_data='help'),
+            InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='about')
+        ],[
             InlineKeyboardButton("🎀 𝙹𝙾𝙸𝙽 𝚁𝙴𝚀𝚄𝙴𝚂𝚃 𝙶𝚁𝙾𝚄𝙿 🎀", url=f"http://t.me/Knmlpro2_Group")
-            ]]
+        ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.START_TXT.format(query.from_user.mention, get_wish()),
@@ -1004,7 +1006,6 @@ async def advantage_spell_chok(message, s):
         return
     if not movies:
         n = await s.edit_text(text=script.NOT_FILE_TXT.format(message.from_user.mention, search), reply_markup=InlineKeyboardMarkup(btn))
-        await temp.BOT.send_message(LOG_CHANNEL, f"#No_Result\n\nRequester: {message.from_user.mention}\nContent: {search}")
         await asyncio.sleep(60)
         await n.delete()
         try:
@@ -1028,4 +1029,3 @@ async def advantage_spell_chok(message, s):
         await message.delete()
     except:
         pass
-
