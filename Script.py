@@ -110,6 +110,7 @@ I can't find the <b>{}</b> in my database! 🥲
     USER_COMMAND_TXT = """<b>Here is bot user commands 👇
 
 /start - to check bot alive or not
+/gofile - upload file to gofile.io
 /settings - to change group settings as your wish
 /set_template - to set custom imdb template
 /set_caption - to set custom bot files caption
@@ -128,4 +129,3 @@ I can't find the <b>{}</b> in my database! 🥲
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/HA-Bots/Auto-Filter-Bot>ʜᴇʀᴇ</a>
 
 - ᴅᴇᴠʟᴏᴘᴇʀ - @HA_Bots"""
-
