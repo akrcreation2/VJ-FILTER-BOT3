@@ -32,10 +32,10 @@ BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     print('Error - BOT_TOKEN is missing, exiting now')
     exit()
-PORT = int(environ.get('PORT', '8080'))
+PORT = int(environ.get('PORT', '80'))
 
 # Bot pics
-PICS = (environ.get('PICS', 'https://telegra.ph/file/6993374820d251a28a755.jpg')).split()
+PICS = (environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg https://telegra.ph/file/f0aa4f433132769f8970c.jpg https://telegra.ph/file/f515fbc2084592eca60a5.jpg https://telegra.ph/file/20dbdcffaa89bd3d09a74.jpg https://telegra.ph/file/6045ba953af4def846238.jpg')).split()
 
 # Bot Admins
 ADMINS = environ.get('ADMINS', '')
@@ -72,16 +72,19 @@ DATABASE_URL = environ.get('DATABASE_URL', "")
 if len(DATABASE_URL) == 0:
     print('Error - DATABASE_URL is missing, exiting now')
     exit()
+SECOND_DATABASE_URL = environ.get('SECOND_DATABASE_URL', "")
+if len(SECOND_DATABASE_URL) == 0:
+    print('Info - SECOND_DATABASE_URL is empty')
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 
 # Links
-SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/Knmlpro2support_bot')
-OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/knmlpro2")
-UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/+xCoehbucGlA3OTdl')
-FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/knmlpro2_group')
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/open_link_trick/17")
-VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/open_link_trick/17")
+SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/HA_Bots_Support')
+OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/Hansaka_Anuhas")
+UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/HA_Bots')
+FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/HA_Films_World')
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/HA_Bots")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/HA_Bots")
 
 # Bot settings
 TIME_ZONE = pytz.timezone(environ.get("TIME_ZONE", 'Asia/Colombo'))
@@ -100,8 +103,8 @@ INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTE
 PM_FILE_DELETE_TIME = int(environ.get('PM_FILE_DELETE_TIME', '3600'))
 
 # boolean settings
-IS_VERIFY = is_enabled('IS_VERIFY', True)
-AUTO_DELETE = is_enabled('AUTO_DELETE', True)
+IS_VERIFY = is_enabled('IS_VERIFY', False)
+AUTO_DELETE = is_enabled('AUTO_DELETE', False)
 WELCOME = is_enabled('WELCOME', False)
 PROTECT_CONTENT = is_enabled('PROTECT_CONTENT', False)
 LONG_IMDB_DESCRIPTION = is_enabled("LONG_IMDB_DESCRIPTION", False)
@@ -119,7 +122,7 @@ if len(BIN_CHANNEL) == 0:
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-URL = environ.get("URL", "https://knmlpro2filter-akrcreation2.koyeb.app/")
+URL = environ.get("URL", "")
 if len(URL) == 0:
     print('Error - URL is missing, exiting now')
     exit()
@@ -136,4 +139,3 @@ else:
 #start command reactions and sticker
 REACTIONS = [reactions for reactions in environ.get('REACTIONS', '🤝 😇 🤗 😍 👍 🎅 😐 🥰 🤩 😱 🤣 😘 👏 😛 😈 🎉 ⚡️ 🫡 🤓 😎 🏆 🔥 🤭 🌚 🆒 👻 😁').split()]  # Multiple reactions can be used separated by space
 STICKERS = [sticker for sticker in environ.get('STICKERS', 'CAACAgIAAxkBAAEN4ctnu1NdZUe21tiqF1CjLCZW8rJ28QACmQwAAj9UAUrPkwx5a8EilDYE CAACAgIAAxkBAAEN1pBntL9sz1tuP_qo0bCdLj_xQa28ngACxgEAAhZCawpKI9T0ydt5RzYE').split()]  # Multiple sticker can be used separated by space, use @idstickerbot for get sticker id
-
