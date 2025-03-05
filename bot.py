@@ -1,141 +1,141 @@
-import os
-import time
-import asyncio
-import uvloop
+import re
+from os import environ
+from Script import script
+import pytz
 
-# pyrogram imports
-from pyrogram import types
-from pyrogram import Client
-from pyrogram.errors import FloodWait
+def is_enabled(type, value):
+    data = environ.get(type, str(value))
+    if data.lower() in ["true", "yes", "1", "enable", "y"]:
+        return True
+    elif data.lower() in ["false", "no", "0", "disable", "n"]:
+        return False
+    else:
+        print(f'Error - {type} is invalid, exiting now')
+        exit()
 
-# aiohttp imports
-from aiohttp import web
-from typing import Union, Optional, AsyncGenerator
+def is_valid_ip(ip):
+    ip_pattern = r'\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b'
+    return re.match(ip_pattern, ip) is not None
 
-# local imports
-from web import web_app
-from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS, SECOND_DATABASE_URL, DATABASE_URL
-from utils import temp, get_readable_time
+# Bot information
+API_ID = environ.get('API_ID', '')
+if len(API_ID) == 0:
+    print('Error - API_ID is missing, exiting now')
+    exit()
+else:
+    API_ID = int(API_ID)
+API_HASH = environ.get('API_HASH', '')
+if len(API_HASH) == 0:
+    print('Error - API_HASH is missing, exiting now')
+    exit()
+BOT_TOKEN = environ.get('BOT_TOKEN', '')
+if len(BOT_TOKEN) == 0:
+    print('Error - BOT_TOKEN is missing, exiting now')
+    exit()
+PORT = int(environ.get('PORT', '80'))
 
-# pymongo and database imports
-from database.users_chats_db import db
-from database.ia_filterdb import Media
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
+# Bot pics
+PICS = (environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg https://telegra.ph/file/f0aa4f433132769f8970c.jpg https://telegra.ph/file/f515fbc2084592eca60a5.jpg https://telegra.ph/file/20dbdcffaa89bd3d09a74.jpg https://telegra.ph/file/6045ba953af4def846238.jpg')).split()
 
-uvloop.install()
+# Bot Admins
+ADMINS = environ.get('ADMINS', '')
+if len(ADMINS) == 0:
+    print('Error - ADMINS is missing, exiting now')
+    exit()
+else:
+    ADMINS = [int(admins) for admins in ADMINS.split()]
 
-class Bot(Client):
-    def __init__(self):
-        super().__init__(
-            name='Auto_Filter_Bot',
-            api_id=API_ID,
-            api_hash=API_HASH,
-            bot_token=BOT_TOKEN,
-            plugins={"root": "plugins"}
-        )
+# Channels
+INDEX_CHANNELS = [int(index_channels) if index_channels.startswith("-") else index_channels for index_channels in environ.get('INDEX_CHANNELS', '').split()]
+if len(INDEX_CHANNELS) == 0:
+    print('Info - INDEX_CHANNELS is empty')
+LOG_CHANNEL = environ.get('LOG_CHANNEL', '')
+if len(LOG_CHANNEL) == 0:
+    print('Error - LOG_CHANNEL is missing, exiting now')
+    exit()
+else:
+    LOG_CHANNEL = int(LOG_CHANNEL)
+FORCE_SUB_CHANNELS = [int(fsub_channels) if fsub_channels.startswith("-") else fsub_channels for fsub_channels in environ.get('FORCE_SUB_CHANNELS', '').split()]
+if len(FORCE_SUB_CHANNELS) == 0:
+    print('Info - FORCE_SUB_CHANNELS is empty')
+    
+# support group
+SUPPORT_GROUP = environ.get('SUPPORT_GROUP', '')
+if len(SUPPORT_GROUP) == 0:
+    print('Error - SUPPORT_GROUP is missing, exiting now')
+    exit()
+else:
+    SUPPORT_GROUP = int(SUPPORT_GROUP)
 
-    async def start(self):
-        try:
-            await super().start()
-        except FloodWait as e:
-            time_ = get_readable_time(e.value)
-            print(f"Warning - Flood Wait Occured, Wait For: {time_}")
-            asyncio.sleep(e.value)
-            print("Info - Now Ready For Deploying !")
-        temp.START_TIME = time.time()
-        b_users, b_chats = await db.get_banned()
-        temp.BANNED_USERS = b_users
-        temp.BANNED_CHATS = b_chats
-        client = MongoClient(DATABASE_URL, server_api=ServerApi('1'))
-        try:
-            client.admin.command('ping')
-            print("Info - Successfully connected to DATABASE_URL")
-        except Exception as e:
-            print("Error - Make sure DATABASE_URL is correct, exiting now")
-            exit()
-        if SECOND_DATABASE_URL:
-            client2 = MongoClient(SECOND_DATABASE_URL, server_api=ServerApi('1'))
-            try:
-                client2.admin.command('ping')
-                print("Info - Successfully connected to SECOND_DATABASE_URL")
-            except:
-                print("Error - Make sure SECOND_DATABASE_URL is correct, exiting now")
-                exit()
+# MongoDB information
+DATABASE_URL = environ.get('DATABASE_URL', "")
+if len(DATABASE_URL) == 0:
+    print('Error - DATABASE_URL is missing, exiting now')
+    exit()
+SECOND_DATABASE_URL = environ.get('SECOND_DATABASE_URL', "")
+if len(SECOND_DATABASE_URL) == 0:
+    print('Info - SECOND_DATABASE_URL is empty')
+DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 
-        if os.path.exists('restart.txt'):
-            with open("restart.txt") as file:
-                chat_id, msg_id = map(int, file)
-            try:
-                await self.edit_message_text(chat_id=chat_id, message_id=msg_id, text='Restarted Successfully!')
-            except:
-                pass
-            os.remove('restart.txt')
-        temp.BOT = self
-        await Media.ensure_indexes()
-        me = await self.get_me()
-        temp.ME = me.id
-        temp.U_NAME = me.username
-        temp.B_NAME = me.first_name
-        username = '@' + me.username
-        print(f"{me.first_name} is started now 🤗")
-        app = web.AppRunner(web_app)
-        await app.setup()
-        await web.TCPSite(app, "0.0.0.0", PORT).start()
-        try:
-            await self.send_message(chat_id=LOG_CHANNEL, text=f"<b>{me.mention} Restarted! 🤖</b>")
-        except:
-            print("Error - Make sure bot admin in LOG_CHANNEL, exiting now")
-            exit()
-        try:
-            m = await self.send_message(chat_id=BIN_CHANNEL, text="Test")
-            await m.delete()
-        except:
-            print("Error - Make sure bot admin in BIN_CHANNEL, exiting now")
-            exit()
-        for admin in ADMINS:
-            try:
-                await self.send_message(chat_id=admin, text="<b>✅ ʙᴏᴛ ʀᴇsᴛᴀʀᴛᴇᴅ</b>")
-            except:
-                print(f"Info - Admin ({admin}) not started this bot yet")
+# Links
+SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/HA_Bots_Support')
+OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/Hansaka_Anuhas")
+UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/HA_Bots')
+FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/HA_Films_World')
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/HA_Bots")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/HA_Bots")
 
-    async def stop(self, *args):
-        await super().stop()
-        print("Bot Stopped! Bye...")
+# Bot settings
+TIME_ZONE = pytz.timezone(environ.get("TIME_ZONE", 'Asia/Colombo'))
+DELETE_TIME = int(environ.get('DELETE_TIME', 3600)) # Add time in seconds
+CACHE_TIME = int(environ.get('CACHE_TIME', 300))
+MAX_BTN = int(environ.get('MAX_BTN', 10))
+LANGUAGES = [language.lower() for language in environ.get('LANGUAGES', 'hindi english telugu tamil kannada malayalam marathi punjabi').split()]
+QUALITY = [quality.lower() for quality in environ.get('QUALITY', '360p 480p 720p 1080p 2160p').split()]
+IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
+FILE_CAPTION = environ.get("FILE_CAPTION", script.FILE_CAPTION)
+SHORTLINK_URL = environ.get("SHORTLINK_URL", "mdiskshortner.link")
+SHORTLINK_API = environ.get("SHORTLINK_API", "36f1ae74ba1aa01e5bd73bdd0bc22aa915443501")
+VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', 86400)) # Add time in seconds
+WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
+INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
+PM_FILE_DELETE_TIME = int(environ.get('PM_FILE_DELETE_TIME', '3600'))
 
-    async def iter_messages(self: Client, chat_id: Union[int, str], limit: int, offset: int = 0) -> Optional[AsyncGenerator["types.Message", None]]:
-        """Iterate through a chat sequentially.
-        This convenience method does the same as repeatedly calling :meth:`~pyrogram.Client.get_messages` in a loop, thus saving
-        you from the hassle of setting up boilerplate code. It is useful for getting the whole chat messages with a
-        single call.
-        Parameters:
-            chat_id (``int`` | ``str``):
-                Unique identifier (int) or username (str) of the target chat.
-                For your personal cloud (Saved Messages) you can simply use "me" or "self".
-                For a contact that exists in your Telegram address book you can use his phone number (str).
-                
-            limit (``int``):
-                Identifier of the last message to be returned.
-                
-            offset (``int``, *optional*):
-                Identifier of the first message to be returned.
-                Defaults to 0.
-        Returns:
-            ``Generator``: A generator yielding :obj:`~pyrogram.types.Message` objects.
-        Example:
-            .. code-block:: python
-                async for message in app.iter_messages("pyrogram", 1000, 100):
-                    print(message.text)
-        """
-        current = offset
-        while True:
-            new_diff = min(200, limit - current)
-            if new_diff <= 0:
-                return
-            messages = await self.get_messages(chat_id, list(range(current, current+new_diff+1)))
-            for message in messages:
-                yield message
-                current += 1
+# boolean settings
+IS_VERIFY = is_enabled('IS_VERIFY', False)
+AUTO_DELETE = is_enabled('AUTO_DELETE', False)
+WELCOME = is_enabled('WELCOME', False)
+PROTECT_CONTENT = is_enabled('PROTECT_CONTENT', False)
+LONG_IMDB_DESCRIPTION = is_enabled("LONG_IMDB_DESCRIPTION", False)
+LINK_MODE = is_enabled("LINK_MODE", True)
+AUTO_FILTER = is_enabled('AUTO_FILTER', True)
+IMDB = is_enabled('IMDB', True)
+SPELL_CHECK = is_enabled("SPELL_CHECK", True)
+SHORTLINK = is_enabled('SHORTLINK', False)
 
-app = Bot()
-app.run()
+# for stream
+IS_STREAM = is_enabled('IS_STREAM', True)
+BIN_CHANNEL = environ.get("BIN_CHANNEL", "")
+if len(BIN_CHANNEL) == 0:
+    print('Error - BIN_CHANNEL is missing, exiting now')
+    exit()
+else:
+    BIN_CHANNEL = int(BIN_CHANNEL)
+URL = environ.get("URL", "")
+if len(URL) == 0:
+    print('Error - URL is missing, exiting now')
+    exit()
+else:
+    if URL.startswith(('https://', 'http://')):
+        if not URL.endswith("/"):
+            URL += '/'
+    elif is_valid_ip(URL):
+        URL = f'http://{URL}/'
+    else:
+        print('Error - URL is not valid, exiting now')
+        exit()
+
+#start command reactions and sticker
+REACTIONS = [reactions for reactions in environ.get('REACTIONS', '🤝 😇 🤗 😍 👍 🎅 😐 🥰 🤩 😱 🤣 😘 👏 😛 😈 🎉 ⚡️ 🫡 🤓 😎 🏆 🔥 🤭 🌚 🆒 👻 😁').split()]  # Multiple reactions can be used separated by space
+STICKERS = [sticker for sticker in environ.get('STICKERS', 'CAACAgIAAxkBAAEN4ctnu1NdZUe21tiqF1CjLCZW8rJ28QACmQwAAj9UAUrPkwx5a8EilDYE CAACAgIAAxkBAAEN1pBntL9sz1tuP_qo0bCdLj_xQa28ngACxgEAAhZCawpKI9T0ydt5RzYE').split()]  # Multiple sticker can be used separated by space, use @idstickerbot for get sticker id
