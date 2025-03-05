@@ -1,5 +1,4 @@
 import os
-from telegraph import upload_file
 import random
 import string
 import asyncio
@@ -11,7 +10,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, delete_files
 from database.users_chats_db import db
 from info import TIME_ZONE, FORCE_SUB_CHANNELS, STICKERS, INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, SHORTLINK_API, SHORTLINK_URL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, IS_STREAM, REACTIONS, PM_FILE_DELETE_TIME
-from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish, get_seconds
+from utils import upload_to_gofile, get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish, get_seconds
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
@@ -54,9 +53,10 @@ async def start(client, message):
             InlineKeyboardButton('🧑‍💻 sᴜᴘᴘᴏʀᴛ', url=SUPPORT_LINK)
         ],[
             InlineKeyboardButton('👨‍🚒 ʜᴇʟᴘ', callback_data='help'),
+            InlineKeyboardButton('🔎 sᴇᴀʀᴄʜ ɪɴʟɪɴᴇ', switch_inline_query_current_chat=''),
             InlineKeyboardButton('📚 ᴀʙᴏᴜᴛ', callback_data='about')
         ],[
-            InlineKeyboardButton("🎀 𝙹𝙾𝙸𝙽 𝚁𝙴𝚀𝚄𝙴𝚂𝚃 𝙶𝚁𝙾𝚄𝙿 🎀", url=f"http://t.me/Knmlpro2_Group")
+            InlineKeyboardButton('💰 ᴇᴀʀɴ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏɴᴇʏ ʙʏ ʙᴏᴛ 💰', callback_data='earn')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
@@ -151,7 +151,7 @@ async def start(client, message):
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
                 caption=f_caption,
-                protect_content=False if await db.has_premium_access(message.from_user.id) else True,
+                protect_content=False,
                 reply_markup=InlineKeyboardMarkup(btn)
             )
             file_ids.append(msg.id)
@@ -209,7 +209,7 @@ async def start(client, message):
         chat_id=message.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        protect_content=False if await db.has_premium_access(message.from_user.id) else True,
+        protect_content=False,
         reply_markup=InlineKeyboardMarkup(btn)
     )
     time = get_readable_time(PM_FILE_DELETE_TIME)
@@ -471,29 +471,25 @@ async def set_tutorial(client, message):
     await save_group_settings(grp_id, 'tutorial', tutorial)
     await message.reply_text(f"Successfully changed tutorial for {title} to\n\n{tutorial}")
 
-@Client.on_message(filters.command('telegraph'))
-async def telegraph(bot, message):
+@Client.on_message(filters.command('gofile'))
+async def upload_file_to_gofile(bot, message):
     reply_to_message = message.reply_to_message
     if not reply_to_message:
         return await message.reply('Reply to any photo or video.')
     file = reply_to_message.photo or reply_to_message.video or None
     if file is None:
         return await message.reply('Invalid media.')
-    if file.file_size >= 5242880:
-        await message.reply_text(text="Send less than 5MB")   
-        return
     text = await message.reply_text(text="ᴘʀᴏᴄᴇssɪɴɢ....")   
-    media = await reply_to_message.download()  
+    path = await reply_to_message.download()  
+    response = upload_to_gofile(path)
+    if not response:
+         await text.edit_text(text="Upload failed!")
+         return    
     try:
-        response = upload_file(media)
-    except Exception as e:
-        await text.edit_text(text=f"Error - {e}")
-        return    
-    try:
-        os.remove(media)
+        os.remove(path)
     except:
         pass
-    await text.edit_text(f"<b>❤️ ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴘʜ ʟɪɴᴋ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 👇</b>\n\n<code>https://telegra.ph/{response[0]}</code></b>")
+    await text.edit_text(f"<b>❤️ Your link ready 👇\n\n{response}</b>")
 
 @Client.on_message(filters.command('ping'))
 async def ping(client, message):
