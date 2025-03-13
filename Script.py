@@ -9,7 +9,7 @@ class script(object):
 ★ Language: <a href=https://www.python.org>Python</a>
 ★ Library: <a href=https://pyrogram.org>Pyrogram</a>"""
 
-    MY_OWNER_TXT = """★ Name: KNMLPRO2
+    MY_OWNER_TXT = """★ Name: Knmlpro2
 ★ Username: @Knmlpro2
 ★ Country: INDIA 🇮🇳"""
 
@@ -79,12 +79,9 @@ I can't find the <b>{}</b> in my database! 🥲
 📀 RunTime: {runtime} Minutes
 
 🗣 Requested by: {message.from_user.mention}
-©️ Powered by: <b>{message.chat.title}
-★ ᴘᴏᴡᴇʀᴇᴅ ʙʏ : @KNMLPRO2</b>"""
+©️ Powered by: <b>{message.chat.title}</b>"""
 
-    FILE_CAPTION = """<i><b>@Knmlpro2 - {file_caption}
-    🔰Pᴏᴡᴇʀᴇᴅ Bʏ ➜ @Knmlpro2
-    🔰Gʀᴏᴜᴘ ➜ @Knmlpro2_group </b></i>
+    FILE_CAPTION = """<i>{file_name}</i>
 
 🚫 ᴘʟᴇᴀsᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ᴄʟᴏsᴇ ʙᴜᴛᴛᴏɴ ɪꜰ ʏᴏᴜ ʜᴀᴠᴇ sᴇᴇɴ ᴛʜᴇ ᴍᴏᴠɪᴇ 🚫"""
 
@@ -134,4 +131,4 @@ I can't find the <b>{}</b> in my database! 🥲
 
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/>ʜᴇʀᴇ</a>
 
-- ᴅᴇᴠʟᴏᴘᴇʀ - @Knmlpro2"""
+- ᴅᴇᴠʟᴏᴘᴇʀ - @knmlpro2"""
