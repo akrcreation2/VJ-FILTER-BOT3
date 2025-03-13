@@ -80,11 +80,11 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 
 # Links
-SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/HA_Bots_Support')
-UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/HA_Bots')
-FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/HA_Films_World')
-TUTORIAL = environ.get("TUTORIAL", "https://t.me/HA_Bots")
-VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/HA_Bots")
+SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/Knmlpro2support_bot')
+UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/+xCoehbucGlA3OTdl')
+FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/knmlpro2_group')
+TUTORIAL = environ.get("TUTORIAL", "https://t.me/open_link_trick/17")
+VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/open_link_trick/17")
 
 # Bot settings
 TIME_ZONE = pytz.timezone(environ.get("TIME_ZONE", 'Asia/Colombo'))
@@ -104,7 +104,7 @@ PM_FILE_DELETE_TIME = int(environ.get('PM_FILE_DELETE_TIME', '3600'))
 
 # boolean settings
 USE_CAPTION_FILTER = is_enabled('USE_CAPTION_FILTER', False)
-IS_VERIFY = is_enabled('IS_VERIFY', False)
+IS_VERIFY = is_enabled('IS_VERIFY', True)
 AUTO_DELETE = is_enabled('AUTO_DELETE', False)
 WELCOME = is_enabled('WELCOME', False)
 PROTECT_CONTENT = is_enabled('PROTECT_CONTENT', False)
