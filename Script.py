@@ -2,7 +2,7 @@ class script(object):
 
     START_TXT = """<b>ʜᴇʏ {}, <i>{}</i>
     
- ɪ ᴀᴍ ᴘᴏᴡᴇʀғᴜʟ ғɪʟᴛᴇʀ ɪ ᴄᴀɴ 𝗌ʜᴀʀᴇ ᴍᴏᴠɪᴇ𝗌 ᴀɴᴅ 𝗌ᴇʀɪᴇ𝗌 // ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴛᴏ 𝗌ᴇᴇ ᴛʜᴇ ᴍᴀɢɪᴄ 🪄</b>"""
+ɪ ᴀᴍ ᴘᴏᴡᴇʀғᴜʟ ғɪʟᴛᴇʀ ɪ ᴄᴀɴ 𝗌ʜᴀʀᴇ ᴍᴏᴠɪᴇ𝗌 ᴀɴᴅ 𝗌ᴇʀɪᴇ𝗌 // ᴀᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴛᴏ 𝗌ᴇᴇ ᴛʜᴇ ᴍᴀɢɪᴄ 🪄</b>"""
 
     MY_ABOUT_TXT = """★ Server: <a href=https://www.heroku.com>Heroku</a>
 ★ Database: <a href=https://www.mongodb.com>MongoDB</a>
@@ -10,8 +10,8 @@ class script(object):
 ★ Library: <a href=https://pyrogram.org>Pyrogram</a>"""
 
     MY_OWNER_TXT = """★ Name: Knmlpro2
-★ Username: @Knmlpro2
-★ Country: INDIA 🇮🇳"""
+★ Username: @knmlpro2
+★ Country: Sri Lanka 🇱🇰"""
 
     STATUS_TXT = """🗂 Total Files: <code>{}</code>
 👤 Total Users: <code>{}</code>
@@ -131,4 +131,4 @@ I can't find the <b>{}</b> in my database! 🥲
 
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/>ʜᴇʀᴇ</a>
 
-- ᴅᴇᴠʟᴏᴘᴇʀ - @knmlpro2"""
+- ᴅᴇᴠʟᴏᴘᴇʀ - @Knmlpro2"""
