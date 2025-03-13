@@ -69,9 +69,24 @@ I can't find the <b>{}</b> in my database! 🥲
 
 📝 ɴᴏᴛᴇ:- ʏᴏᴜ sʜᴏᴜʟᴅ ɴᴏᴛ ʙᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ ɪɴ ɢʀᴏᴜᴘ. sᴇɴᴅ ᴄᴏᴍᴍᴀɴᴅ ᴡɪᴛʜᴏᴜᴛ ʙᴇɪɴɢ ᴀɴ ᴀɴᴏɴʏᴍᴜs ᴀᴅᴍɪɴ.</b>"""
 
-    IMDB_TEMPLATE = """<b><i>🧿 ᴛɪᴛᴛʟᴇ :  {title} \n🌟 ʀᴀᴛɪɴɢ : {rating} \n🎭 ɢᴇɴʀᴇ : {genres} \n📆 ʀᴇʟᴇᴀsᴇ : {year} \n⏰ ᴅᴜʀᴀᴛɪᴏɴ : {runtime} \n🎙️ʟᴀɴɢᴜᴀɢᴇ : {languages} \n★ ᴘᴏᴡᴇʀᴇᴅ ʙʏ : @KNMLPRO2 </i></b>"""
+    IMDB_TEMPLATE = """✅ I Found: <code>{query}</code>
 
-    FILE_CAPTION = """<i><b>@Knmlpro2 - {file_caption}</b>  \n<b>🔰Pᴏᴡᴇʀᴇᴅ Bʏ ➜ @Knmlpro2 \n🔰Gʀᴏᴜᴘ ➜ @Knmlpro2_group </b></i>"""
+🏷 Title: <a href={url}>{title}</a>
+🎭 Genres: {genres}
+📆 Year: <a href={url}/releaseinfo>{year}</a>
+🌟 Rating: <a href={url}/ratings>{rating} / 10</a>
+☀️ Languages: {languages}
+📀 RunTime: {runtime} Minutes
+
+🗣 Requested by: {message.from_user.mention}
+©️ Powered by: <b>{message.chat.title}
+★ ᴘᴏᴡᴇʀᴇᴅ ʙʏ : @KNMLPRO2</b>"""
+
+    FILE_CAPTION = """<i><b>@Knmlpro2 - {file_caption}
+    🔰Pᴏᴡᴇʀᴇᴅ Bʏ ➜ @Knmlpro2
+    🔰Gʀᴏᴜᴘ ➜ @Knmlpro2_group </b></i>
+
+🚫 ᴘʟᴇᴀsᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ᴄʟᴏsᴇ ʙᴜᴛᴛᴏɴ ɪꜰ ʏᴏᴜ ʜᴀᴠᴇ sᴇᴇɴ ᴛʜᴇ ᴍᴏᴠɪᴇ 🚫"""
 
     WELCOME_TEXT = """👋 Hello {mention}, Welcome to {title} group! 💞"""
 
@@ -120,4 +135,3 @@ I can't find the <b>{}</b> in my database! 🥲
 - ꜱᴏᴜʀᴄᴇ - <a href=https://github.com/>ʜᴇʀᴇ</a>
 
 - ᴅᴇᴠʟᴏᴘᴇʀ - @Knmlpro2"""
-
